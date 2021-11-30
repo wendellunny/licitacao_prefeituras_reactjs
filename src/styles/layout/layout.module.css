@@ -1,0 +1,16 @@
+.layout{
+    display:flex; 
+    flex-direction: column;
+    width: 100vw;
+}
+
+.layout  > div {
+    display : flex;
+    flex-direction: row;
+}
+
+.layout > div > main{
+    margin-top: 3.5rem;
+    padding: 2rem
+}
+
