@@ -4,7 +4,7 @@ export function Navbar(){
     return (
         <nav className={styles.navbar}>
             <ul>
-                <li>Logout</li>
+                <li><span className="material-icons">logout</span></li>
             </ul>
         </nav>
     );

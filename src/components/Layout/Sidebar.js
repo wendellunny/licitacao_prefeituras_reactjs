@@ -4,6 +4,9 @@ export function Sidebar(){
     return (
         <aside className={styles.sidebar}>
             <ul>
+                <li>Licitações Prefeituras</li>
+            </ul>
+            <ul>
                 <li>
                     Prefeituras
                 </li>

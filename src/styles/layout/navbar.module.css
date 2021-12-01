@@ -1,8 +1,19 @@
 .navbar{
-    width:100%;
+    box-sizing: border-box;
+    
+    display: flex;
+    /* width:100%; */
+    width: calc(100% - 16rem);
+    padding: 0 5rem;
     height: 3.5rem;
     background-color: #f9f9f9;
     color:#333;
     margin-left: 16rem;
     position: fixed;
+    justify-content: flex-end;
 }
+.navbar ul{
+    list-style: none;
+}
+
+

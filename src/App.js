@@ -5,9 +5,14 @@ import { Layout } from './components/Layout/Layout';
 
 function App() {
   return (
-    <Layout>
-      <div>Children</div>
-    </Layout>
+    <>
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"></link>
+      <Layout>
+        <div>Children</div>
+      </Layout>
+    </>
+    
   );
 }
 
