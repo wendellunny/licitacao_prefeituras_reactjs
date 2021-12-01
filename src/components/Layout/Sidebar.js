@@ -8,10 +8,10 @@ export function Sidebar(){
             </ul>
             <ul>
                 <li>
-                    Prefeituras
+                    <span className="material-icons">location_city</span> <span>Prefeituras</span>
                 </li>
                 <li>
-                    Atividades
+                    <span className="material-icons">task</span> <span>Atividades</span>
                 </li>
             </ul>
         </aside>
