@@ -4,16 +4,18 @@ import Select from 'react-select'
 
 export function PrefeituraForm(){
     const [estados,setEstados] = useState([]);
-    const [inputEstados,setInputEstados] = useState('');
+    const [ufSelected,setUfSelected] = useState(null);
+    const [citySelected,setCitySelected] = useState(null);
     const [cidades,setCidades] = useState([]);
+    const [socialReason,setSocialReason] = useState('');
 
     useEffect(()  => {
         getAllUF();
     },[]);
 
     useEffect(()=>{
-        getUfCities(inputEstados);
-    },[inputEstados])
+        
+    },[socialReason])
  
     return (
         
@@ -21,16 +23,20 @@ export function PrefeituraForm(){
             <form>
                 <div className="form-group">
                     <labe>Razão Social</labe>
-                    <input type="text"/>
+                    <input type="text" value={socialReason} onChange={(event)=>{setSocialReason(event.target.value)}}/>
                 </div>
 
                 <div className="form-group">
                     <label>Estado</label>
-                    <Select options={estados} onChange={(value)=>setInputEstados(value.value)}/>
+                    <Select options={estados} value={ufSelected} onChange={handleSelectedEstado}/>
                 </div>
                 <div className="form-group">
                     <label>Cidade</label>
-                    <Select options={cidades} />
+                    <Select options={cidades} placeholder={cidades[0]?.label} value={citySelected} onChange={handleSelectedCity}/>
+                </div>
+
+                <div className="form-group">
+                    <button type="button" onClick={sendForm}>Concluir</button>
                 </div>
 
             </form>
@@ -60,10 +66,34 @@ export function PrefeituraForm(){
         data.forEach(city => {
             options.push({value:city.id, label: city.nome})    
         });
-
         setCidades(options);
     
     }
+
+  function handleSelectedEstado(selected){
+        setUfSelected(selected);
+        setCitySelected(null);
+        getUfCities(selected.value);
+    }
+
+   function handleSelectedCity(selected){
+        setCitySelected(selected);
+        
+    }
+
+    async function sendForm(){
+        const data = {
+            social_reason: socialReason,
+            id_city: citySelected.value
+        }
+        const response = await fetch('http://127.0.0.1:8000/api/city-halls',{
+            method:'POST',
+            body: JSON.stringify(data)
+        });
+
+        console.log(await response.json());
+    }
+
 }
 
 
