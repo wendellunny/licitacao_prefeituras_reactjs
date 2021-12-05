@@ -19,7 +19,8 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home/>} />
           <Route path="prefeituras" element={<Prefeituras/>} />
-          <Route path="prefeituras/create" element={<PrefeituraForm/>} />
+          <Route path="prefeituras/create" element={<PrefeituraForm type="create"/>} />
+          <Route path="prefeituras/:id/edit" element={<PrefeituraForm type="edit" />} />
           <Route path="atividades" element={<Atividades/>} />
           <Route path="atividades/create" element={<AtividadeForm />} />
         </Route>

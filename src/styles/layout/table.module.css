@@ -1,0 +1,20 @@
+.table{
+    border: 1px solid #e1e1e1;
+    border-collapse: collapse;
+   
+}
+
+.table td{
+    /* border-to: 1px solid #333;  */
+    padding: 0.5rem;  
+    
+}
+
+.table th{
+    padding: 0.5rem;
+   
+    background-color: #333;
+    color: #f9f9f9;
+    
+}
+

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-
+import { Link } from 'react-router-dom';
 import Select from 'react-select'
-import {useNavigate} from 'react-router-dom'
+import {useNavigate,useParams} from 'react-router-dom'
 
 
 export function PrefeituraForm(props){
@@ -12,8 +12,14 @@ export function PrefeituraForm(props){
     const [socialReason,setSocialReason] = useState('');
 
     const navigate = useNavigate(); 
+    const {id} = useParams();
     useEffect(()  => {
         getAllUF();
+        if(id){
+            getPrefeitura(id);
+        }
+        
+        console.log(id);
     },[]);
 
     useEffect(()=>{
@@ -25,6 +31,7 @@ export function PrefeituraForm(props){
 
         
         <div>
+            <Link to="/prefeituras">Voltar</Link>
             <form>
                 <div className="form-group">
                     <labe>Razão Social</labe>
@@ -92,15 +99,32 @@ export function PrefeituraForm(props){
             social_reason: socialReason,
             id_city: citySelected.value
         }
-       
-        const response = await fetch('http://127.0.0.1:8000/api/city-halls',{
-            method:'POST',
+       if(id){
+        const response = await fetch(`http://127.0.0.1:8000/api/city-halls/${id}`,{
+            method:'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
         });
-
         console.log(await response.json());
+       }else{
+            const response = await fetch('http://127.0.0.1:8000/api/city-halls',{
+                method:'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            console.log(await response.json());
+       }
+       
        navigate('/prefeituras');
+    }
+
+    async function getPrefeitura(id){
+        const response =  await fetch(`http://127.0.0.1:8000/api/city-halls/${id}`);
+        const data = await response.json();
+        console.log(data);
+        setSocialReason(data.data.social_reason);
+        setUfSelected(data.data.labels.inputUf)
+        setCitySelected(data.data.labels.inputCity);
     }
 
 }
