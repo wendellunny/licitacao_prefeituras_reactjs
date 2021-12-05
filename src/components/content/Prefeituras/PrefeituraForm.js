@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
+
 import Select from 'react-select'
+import {useNavigate} from 'react-router-dom'
 
 
-export function PrefeituraForm(){
+export function PrefeituraForm(props){
     const [estados,setEstados] = useState([]);
     const [ufSelected,setUfSelected] = useState(null);
     const [citySelected,setCitySelected] = useState(null);
     const [cidades,setCidades] = useState([]);
     const [socialReason,setSocialReason] = useState('');
 
+    const navigate = useNavigate(); 
     useEffect(()  => {
         getAllUF();
     },[]);
@@ -18,6 +21,8 @@ export function PrefeituraForm(){
     },[socialReason])
  
     return (
+
+
         
         <div>
             <form>
@@ -42,6 +47,7 @@ export function PrefeituraForm(){
             </form>
 
         </div>
+        
             
         
     )
@@ -86,12 +92,15 @@ export function PrefeituraForm(){
             social_reason: socialReason,
             id_city: citySelected.value
         }
+       
         const response = await fetch('http://127.0.0.1:8000/api/city-halls',{
             method:'POST',
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
         });
 
         console.log(await response.json());
+       navigate('/prefeituras');
     }
 
 }
