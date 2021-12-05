@@ -6,10 +6,10 @@ import {useNavigate,useParams} from 'react-router-dom'
 export function AtividadeForm(){
     const [prefeituras,setPrefeituras] = useState('');
     const [description,setDescription] = useState('');
-    const [date,setDate] = useState('');
-    const [type,setType] = useState('');
-    const [status,setStatus] = useState('');
-    const [cityHallId, setcityHallId] = useState(0);
+    const [date,setDate] = useState(null);
+    const [type,setType] = useState(null);
+    const [status,setStatus] = useState(null);
+    const [cityHallId, setCityHallId] = useState(null);
 
     const types = [
         {value:1, label:'Ligação'},
@@ -36,15 +36,15 @@ export function AtividadeForm(){
 
                 <div className="form-group">
                     <label>Tipo</label>
-                    <Select options={types}/>
+                    <Select options={types}  value={type} onChange={handleType}/>
                 </div>
                 <div className="form-group">
                     <label>Prefeitura</label>
-                    <Select  options={prefeituras} />
+                    <Select  options={prefeituras} value={cityHallId} onChange={handleCityHallId}/>
                 </div>
                 <div className="form-group">
                     <label>Status</label>
-                    <Select options={statuses}/>
+                    <Select options={statuses} value={status} onChange={handleStatus}/>
                 </div>
                
                 <div className="form-group">
@@ -53,7 +53,7 @@ export function AtividadeForm(){
                 </div>
 
                 <div className="form-group">
-                    <button type="button" >Concluir</button>
+                    <button type="button" onClick={()=>sendForm()} >Concluir</button>
                 </div>
 
             </form>
@@ -71,6 +71,35 @@ export function AtividadeForm(){
         })
         setPrefeituras(cityHalls);
         console.log(cityHalls);
+    }
+
+    function handleType(selected){
+        setType(selected);
+    }
+    function handleCityHallId(selected){
+        setCityHallId(selected);
+    }
+    function handleStatus(selected){
+        setStatus(selected);
+    }
+
+    async function sendForm(){
+        const data = {
+            description: description,
+            type: type.value,
+            city_hall_id: cityHallId.value,
+            status: status.value,
+            scheduled_date: date
+        }
+        const response = await fetch('http://127.0.0.1:8000/api/activities',{
+                method:'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            console.log(await response.json());
+      
+       
+    //    navigate('/activities');
     }
    
 }
