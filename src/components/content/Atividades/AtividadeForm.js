@@ -27,7 +27,7 @@ export function AtividadeForm(){
     },[])
     return (
         <div>
-            {/* <Link to="/prefeituras">Voltar</Link> */}
+            <Link to="/atividades">Voltar</Link>
             <form>
                 <div className="form-group">
                     <label>Descrição</label>
