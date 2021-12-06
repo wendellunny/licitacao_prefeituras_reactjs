@@ -22,8 +22,14 @@ export function AtividadeForm(){
         {value:4, label:'Negada'},
     ]
 
+    const {id} = useParams();
+   
+    const navigate = useNavigate();
     useEffect(()=>{
         getPrefeituras();
+        if(id){
+            getAtividade(id);
+        }
     },[])
     return (
         <div>
@@ -91,15 +97,37 @@ export function AtividadeForm(){
             status: status.value,
             scheduled_date: date
         }
-        const response = await fetch('http://127.0.0.1:8000/api/activities',{
+        if(id){
+            const response = await fetch(`http://127.0.0.1:8000/api/activities/${id}`,{
+                method:'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            console.log(await response.json());
+        }else{
+            const response = await fetch('http://127.0.0.1:8000/api/activities',{
                 method:'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
             });
             console.log(await response.json());
+        }
+        
       
        
-    //    navigate('/activities');
+       navigate('/atividades');
+    }
+
+    async function getAtividade(id){
+        const response =  await fetch(`http://127.0.0.1:8000/api/activities/${id}`);
+        const data = await response.json();
+        console.log(data);
+
+        setCityHallId({value:data.data.cityHallId, label: data.data.city_hall.social_reason});
+        setStatus({value:data.data.status.original, label:data.data.status.formated});
+        setType({value:data.data.type.original, label:data.data.type.formated});
+        setDescription(data.data.description);
+        setDate(data.data.scheduled_date);
     }
    
 }
