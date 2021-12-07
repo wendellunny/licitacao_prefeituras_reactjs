@@ -72,7 +72,13 @@ export function Atividades(){
 
     )
     async function getAtividades(){
-        const data = await fetch('http://127.0.0.1:8000/api/activities');
+        const dataForm = {
+            token: localStorage.getItem('jwt_token')
+        }
+        const data = await fetch(`http://127.0.0.1:8000/api/activities?token=${JSON.stringify(dataForm)}`,{
+            headers: { 'Content-Type': 'application/json' }
+
+        });
         const response = await data.json();
         // console.log(response.data.data)
         setAtividades(response.data);
