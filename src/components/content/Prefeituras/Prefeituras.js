@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styles from '../../../styles/layout/table.module.css'
 export function Prefeituras(){
     const [prefeituras,setPrefeituras] = useState([]);
+    const [token, setToken] =useState(localStorage.getItem('jwt_token'));
     
     useEffect(() => {
         getPrefeituras();
@@ -60,7 +61,7 @@ export function Prefeituras(){
     
 
     async function getPrefeituras(){
-        const data = await fetch('http://127.0.0.1:8000/api/city-halls');
+        const data = await fetch(`http://127.0.0.1:8000/api/city-halls?token=${token}`);
         const response = await data.json();
 
         setPrefeituras(response.data);
@@ -69,7 +70,7 @@ export function Prefeituras(){
     async function deletePrefeitura($id){
         const data = await fetch(`http://127.0.0.1:8000/api/city-halls/${$id}`,{
             method:'DELETE',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json','Authorization': `bearer ${token}` },
         });
 
         console.log(await data.json());

@@ -10,6 +10,7 @@ export function PrefeituraForm(props){
     const [citySelected,setCitySelected] = useState(null);
     const [cidades,setCidades] = useState([]);
     const [socialReason,setSocialReason] = useState('');
+    const [token, setToken] =useState(localStorage.getItem('jwt_token'));
 
     const navigate = useNavigate(); 
     const {id} = useParams();
@@ -62,7 +63,7 @@ export function PrefeituraForm(props){
 
     async function getAllUF(){
         const options = [];
-        const response = await fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados');
+        const response = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados?token=${token}`);
         const data = await response.json();
 
         data.forEach(estado => {
@@ -73,7 +74,7 @@ export function PrefeituraForm(props){
     
     async function getUfCities(uf){
         const options = [];
-        const response = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios`);
+        const response = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios?token=${token}`);
         const data = await response.json();
 
         data.forEach(city => {
@@ -102,14 +103,14 @@ export function PrefeituraForm(props){
        if(id){
         const response = await fetch(`http://127.0.0.1:8000/api/city-halls/${id}`,{
             method:'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `bearer ${token}` },
             body: JSON.stringify(data)
         });
         console.log(await response.json());
        }else{
             const response = await fetch('http://127.0.0.1:8000/api/city-halls',{
                 method:'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'Authorization': `bearer ${token}` },
                 body: JSON.stringify(data)
             });
             console.log(await response.json());
@@ -119,7 +120,7 @@ export function PrefeituraForm(props){
     }
 
     async function getPrefeitura(id){
-        const response =  await fetch(`http://127.0.0.1:8000/api/city-halls/${id}`);
+        const response =  await fetch(`http://127.0.0.1:8000/api/city-halls/${id}?token=${token}`);
         const data = await response.json();
         console.log(data);
         setSocialReason(data.data.social_reason);

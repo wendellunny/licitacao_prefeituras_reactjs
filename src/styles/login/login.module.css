@@ -1,0 +1,76 @@
+.login{
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.login img{
+  height: 100vh;  
+}
+
+.login > section{
+    width: 50%;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login > section:nth-of-type(1){
+    
+    overflow: hidden;
+}
+
+.login > section:nth-of-type(2) > div{
+
+   display: flex;
+   flex-direction: column;
+   margin-bottom: 1.5rem;
+   width: 15rem;
+ 
+    
+}
+
+.login > section:nth-of-type(2) > div > label{
+    display: flex;
+    align-items: center; 
+ }
+ .login > section:nth-of-type(2) > div > label > span{
+    margin-right: 0.4rem;
+ }
+
+
+.login > section:nth-of-type(2) > div > input{
+    height: 1.5rem;
+    width: 15rem;
+    border:none;
+    border-bottom: 1px solid #333;  
+ }
+ .login > section:nth-of-type(2) > div > input:focus{
+    
+    outline: 0;
+     
+ }
+
+ .login > section:nth-of-type(2) > div:nth-of-type(2) {
+    margin-bottom: 1rem;
+ }
+
+
+ .login > section:nth-of-type(2) > div:nth-of-type(3) {
+    display: inline-block;   
+ }
+
+ .login > section:nth-of-type(2) > div:nth-of-type(3) button {
+    border: none; 
+    height: 2.5rem;
+    width: 5rem;
+    background-color: #333;
+    color:white
+ }
+
+
+
+

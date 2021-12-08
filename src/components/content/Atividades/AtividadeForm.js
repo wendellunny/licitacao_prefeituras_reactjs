@@ -10,6 +10,7 @@ export function AtividadeForm(){
     const [type,setType] = useState(null);
     const [status,setStatus] = useState(null);
     const [cityHallId, setCityHallId] = useState(null);
+    const [token, setToken] =useState(localStorage.getItem('jwt_token'));
 
     const types = [
         {value:1, label:'Ligação'},
@@ -69,7 +70,7 @@ export function AtividadeForm(){
 
     async function getPrefeituras(){
         const cityHalls = []
-        const data = await fetch('http://127.0.0.1:8000/api/city-halls');
+        const data = await fetch(`http://127.0.0.1:8000/api/city-halls?token=${token}`);
         const response = await data.json();
         // console.log(response);
         response.data.data.map(function(prefeitura){
@@ -100,14 +101,14 @@ export function AtividadeForm(){
         if(id){
             const response = await fetch(`http://127.0.0.1:8000/api/activities/${id}`,{
                 method:'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json' , 'Authorization': `bearer ${token}`},
                 body: JSON.stringify(data)
             });
             console.log(await response.json());
         }else{
             const response = await fetch('http://127.0.0.1:8000/api/activities',{
                 method:'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json' , 'Authorization': `bearer ${token}`},
                 body: JSON.stringify(data)
             });
             console.log(await response.json());
@@ -119,7 +120,7 @@ export function AtividadeForm(){
     }
 
     async function getAtividade(id){
-        const response =  await fetch(`http://127.0.0.1:8000/api/activities/${id}`);
+        const response =  await fetch(`http://127.0.0.1:8000/api/activities/${id}?token=${token}`);
         const data = await response.json();
         console.log(data);
 

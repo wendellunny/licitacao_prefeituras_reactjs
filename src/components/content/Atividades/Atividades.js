@@ -7,6 +7,7 @@ export function Atividades(){
     const [inputStatus,setInputStatus] = useState(null);
     const [inputType,setInputType] = useState(null);
     const [inputSatisfaction,setInputSatisfaction] = useState(null);
+    const [token, setToken] =useState(localStorage.getItem('jwt_token'));
 
     const types = [
         {value:1, label:'Ligação'},
@@ -72,10 +73,9 @@ export function Atividades(){
 
     )
     async function getAtividades(){
-        const dataForm = {
-            token: localStorage.getItem('jwt_token')
-        }
-        const data = await fetch(`http://127.0.0.1:8000/api/activities?token=${JSON.stringify(dataForm)}`,{
+       
+
+        const data = await fetch(`http://127.0.0.1:8000/api/activities?token=${token}`,{
             headers: { 'Content-Type': 'application/json' }
 
         });
@@ -86,7 +86,7 @@ export function Atividades(){
     async function deleteAtividade($id){
         const data = await fetch(`http://127.0.0.1:8000/api/activities/${$id}`,{
             method:'DELETE',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json', 'Authorization': `bearer ${token}`},
         });
 
         console.log(await data.json());
@@ -106,7 +106,7 @@ export function Atividades(){
 
         const response = await fetch(`http://127.0.0.1:8000/api/activities/${id}/set-status`,{
             method:'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json','Authorization': `bearer ${token}` },
             body: JSON.stringify(data)
         });
 
@@ -128,7 +128,7 @@ export function Atividades(){
 
         const response = await fetch(`http://127.0.0.1:8000/api/activities/${id}/set-type`,{
             method:'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json','Authorization': `bearer ${token}` },
             body: JSON.stringify(data)
         });
 
@@ -146,7 +146,7 @@ export function Atividades(){
 
         const response = await fetch(`http://127.0.0.1:8000/api/activities/${id}/set-satisfaction`,{
             method:'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json','Authorization': `bearer ${token}` },
             body: JSON.stringify(data)
         });
 
