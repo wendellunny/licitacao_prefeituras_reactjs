@@ -11,11 +11,12 @@ import {AuthProvider} from './context/AuthContext'
 import { useContext } from 'react';
 import Login from './components/content/Login/Login';
 import { VerifyAuth } from './middlewares/VerifyAuth';
+import { StartLoading } from './components/Layout/loadings/StartLoading';
 
 function App() {
 
   const navigate = useNavigate();
-  
+
   return (
       <AuthProvider>
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons"

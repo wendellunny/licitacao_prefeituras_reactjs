@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { StartLoading } from "../components/Layout/loadings/StartLoading";
 import { Context } from "../context/AuthContext";
 export function VerifyAuth({children}){
     const {isAuthenticated} = useContext(Context);
@@ -15,7 +16,7 @@ export function VerifyAuth({children}){
         setLoading(false);
     },[]);
     if(loading){
-        return <h1>Carregando</h1>;
+        return <StartLoading/>
     }
     return (
         <>

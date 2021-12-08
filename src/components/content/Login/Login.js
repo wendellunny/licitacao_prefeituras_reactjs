@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { Context } from "../../../context/AuthContext";
 import styles from "../../../styles/login/login.module.css";
 import background from "../../../assets/images/backgrounds/licitacao.jpg";
+import { StartLoading } from "../../Layout/loadings/StartLoading";
 
 export default function Login(){
     const [email,setEmail] = useState('');
@@ -20,8 +21,9 @@ export default function Login(){
     },[]);
 
     if(loading){
-        return <h1>Carregando</h1>;
+        return <StartLoading/>
     }
+    
     return(
         <main className={styles.login}>
             <section className="background">
@@ -39,7 +41,6 @@ export default function Login(){
                 <div>
                     <button onClick={()=>handleLogin({email:email,password:password})}>Entrar</button>
                 </div>   
-                
             </section>
         </main>
     )

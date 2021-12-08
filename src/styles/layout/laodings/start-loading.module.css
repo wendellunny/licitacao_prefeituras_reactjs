@@ -1,0 +1,23 @@
+.loading{
+    background:#333;
+    width:100vw;
+    height: 100vh;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.loading > div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    height: 9rem;
+    width: 9rem;
+    border-radius: 50%;
+}
+.loading img{
+    margin-top: 0.5rem;
+    height: 25rem;
+}

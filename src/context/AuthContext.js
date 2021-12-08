@@ -37,7 +37,7 @@ function AuthProvider({children}){
             body: JSON.stringify(form)
         }
         )
-        const {access_token,expires_in} = await response.json();
+        const {access_token} = await response.json();
         localStorage.setItem('jwt_token',access_token);
         navigate('/');
     }
