@@ -111,6 +111,7 @@ export function PrefeituraForm(props){
     }
 
     async function sendForm(){
+        setLoading(true);
         const data = {
             social_reason: socialReason,
             id_city: citySelected.value

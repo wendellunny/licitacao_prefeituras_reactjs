@@ -102,6 +102,7 @@ export function AtividadeForm(){
     }
 
     async function sendForm(){
+        setLoading(true);
         const data = {
             description: description,
             type: type.value,

@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import styles from '../../../styles/layout/table.module.css'
 import { AppLoading } from "../../Layout/loadings/AppLoading";
+import { ModalDelete } from "../../Layout/modals/ModalDelete";
 
 export function Prefeituras(){
     const [prefeituras,setPrefeituras] = useState([]);
     const [token, setToken] = useState(localStorage.getItem('jwt_token'));
     const [loading, setLoading] = useState(true);
+    const [showModalDelete, setShowModalDelete] = useState(false);
+    const [registerDelete,setRegisterDelete] = useState(null);
     
     useEffect(() => {
         getPrefeituras();
@@ -14,6 +17,7 @@ export function Prefeituras(){
     
     return (
         <div>
+            {showModalDelete ? <ModalDelete action={deletePrefeitura} setShowState={setShowModalDelete} /> : ''}
             {loading ? <AppLoading/> : ''}
             <div className={styles.items_header}>
                 <h2>Prefeituras</h2>
@@ -63,7 +67,7 @@ export function Prefeituras(){
                                         <span className="material-icons" >edit</span>
                                     </button>
                                 </Link>
-                                <button onClick={()=>deletePrefeitura(prefeitura.id)} style={{backgroundColor:'#FE5F55', color:'#fff'}} >
+                                <button onClick={()=>handleModalDelete(prefeitura.id)} style={{backgroundColor:'#FE5F55', color:'#fff'}} >
                                     <span className="material-icons">delete</span>
                                 </button>
                             </td>
@@ -87,14 +91,21 @@ export function Prefeituras(){
         setLoading(false);
     }
 
-    async function deletePrefeitura($id){
+    async function deletePrefeitura(){
         setLoading(true);
-        const data = await fetch(`http://127.0.0.1:8000/api/city-halls/${$id}`,{
+        const data = await fetch(`http://127.0.0.1:8000/api/city-halls/${registerDelete}`,{
             method:'DELETE',
             headers: { 'Content-Type': 'application/json','Authorization': `bearer ${token}` },
         });
 
         console.log(await data.json());
         getPrefeituras();
+        setRegisterDelete(null);
+        setShowModalDelete(false);
+    }
+
+    function handleModalDelete(id){
+        setRegisterDelete(id);
+        setShowModalDelete(true);
     }
 }
