@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import styles from '../../../styles/layout/table.module.css'
+import { AppLoading } from "../../Layout/loadings/AppLoading";
 export function Prefeituras(){
     const [prefeituras,setPrefeituras] = useState([]);
-    const [token, setToken] =useState(localStorage.getItem('jwt_token'));
+    const [token, setToken] = useState(localStorage.getItem('jwt_token'));
+    const [loading, setLoading] = useState(true);
     
     useEffect(() => {
         getPrefeituras();
@@ -11,6 +13,7 @@ export function Prefeituras(){
     
     return (
         <div>
+            {loading ? <AppLoading/> : ''}
             <Link to="/prefeituras/create">Nova Prefeitura</Link>
             <table className={styles.table}>
                 <thead>
@@ -65,9 +68,11 @@ export function Prefeituras(){
         const response = await data.json();
 
         setPrefeituras(response.data);
+        setLoading(false);
     }
 
     async function deletePrefeitura($id){
+        setLoading(true);
         const data = await fetch(`http://127.0.0.1:8000/api/city-halls/${$id}`,{
             method:'DELETE',
             headers: { 'Content-Type': 'application/json','Authorization': `bearer ${token}` },

@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import styles from '../../../styles/layout/table.module.css';
 import Select from 'react-select'
+import { AppLoading } from "../../Layout/loadings/AppLoading";
 export function Atividades(){
     const [atividades,setAtividades] = useState([]);
     const [inputStatus,setInputStatus] = useState(null);
     const [inputType,setInputType] = useState(null);
     const [inputSatisfaction,setInputSatisfaction] = useState(null);
     const [token, setToken] =useState(localStorage.getItem('jwt_token'));
+
+    const [loading,setLoading] = useState(true);
 
     const types = [
         {value:1, label:'Ligação'},
@@ -28,10 +31,13 @@ export function Atividades(){
 
     useEffect(()=>{
         getAtividades();
+        
+
     },[]);
     return (
         
         <div>
+            {loading ? <AppLoading/> : ''}
             <Link to="/atividades/create">Nova Atividade</Link>
            <table className={styles.table}>
                <thead>
@@ -74,7 +80,6 @@ export function Atividades(){
     )
     async function getAtividades(){
        
-
         const data = await fetch(`http://127.0.0.1:8000/api/activities?token=${token}`,{
             headers: { 'Content-Type': 'application/json' }
 
@@ -82,8 +87,10 @@ export function Atividades(){
         const response = await data.json();
         // console.log(response.data.data)
         setAtividades(response.data);
+        setLoading(false);
     }
     async function deleteAtividade($id){
+        setLoading(true);
         const data = await fetch(`http://127.0.0.1:8000/api/activities/${$id}`,{
             method:'DELETE',
             headers: { 'Content-Type': 'application/json', 'Authorization': `bearer ${token}`},
@@ -100,6 +107,7 @@ export function Atividades(){
     }
 
     async function setStatus(id,selected){
+        setLoading(true);
         const data = {
             status: selected.value
         }
@@ -121,7 +129,7 @@ export function Atividades(){
     }
 
    async function setTypes(id,selected){
-
+    setLoading(true);
         const data = {
             type: selected.value
         }
@@ -133,6 +141,7 @@ export function Atividades(){
         });
 
         getAtividades();
+    
     }
 
     function handleSatisfaction(selected,id){
@@ -140,6 +149,7 @@ export function Atividades(){
     }
 
     async function setSatisfaction(id,selected){
+        setLoading(true);
         const data = {
             status: selected.value
         }

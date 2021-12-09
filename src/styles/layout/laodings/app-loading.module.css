@@ -1,0 +1,27 @@
+.loading{
+    position:fixed;
+    top:0;
+    left: 0;
+    background:rgba(0,0,0,0.5);
+    width:100vw;
+    height: 100vh;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+}
+
+
+.loading > div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    height: 9rem;
+    width: 9rem;
+    border-radius: 50%;
+}
+.loading img{
+    margin-top: 0.5rem;
+    height: 25rem;
+}
