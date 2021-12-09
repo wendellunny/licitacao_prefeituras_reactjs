@@ -14,7 +14,16 @@ export function Prefeituras(){
     return (
         <div>
             {loading ? <AppLoading/> : ''}
-            <Link to="/prefeituras/create">Nova Prefeitura</Link>
+            <div className={styles.items_header}>
+                <h2>Prefeituras</h2>
+                
+                <Link to="/prefeituras/create">
+                    <button>
+                        <span className="material-icons">add</span>
+                    </button> 
+                </Link>
+            </div>
+            
             <table className={styles.table}>
                 <thead>
                     <tr>
@@ -48,8 +57,14 @@ export function Prefeituras(){
                             <td>{prefeitura.phone}</td>
                             <td>{prefeitura.population}</td>
                             <td>
-                                <Link to={`/prefeituras/${prefeitura.id}/edit `}><button>Editar</button></Link>
-                                <button onClick={()=>deletePrefeitura(prefeitura.id)}>Excluir</button>
+                                <Link to={`/prefeituras/${prefeitura.id}/edit `}>
+                                    <button style={{backgroundColor:'#3B9CFF', color:'#fff'}}>
+                                        <span className="material-icons" >edit</span>
+                                    </button>
+                                </Link>
+                                <button onClick={()=>deletePrefeitura(prefeitura.id)} style={{backgroundColor:'#FE5F55', color:'#fff'}} >
+                                    <span className="material-icons">delete</span>
+                                </button>
                             </td>
                           </tr>
                       )

@@ -67,8 +67,15 @@ export function Atividades(){
                                     </td>
                                     <td>{atividade.scheduled_date}</td>
                                     <td>  
-                                        <Link to={`/atividades/${atividade.id}/edit `}><button>Editar</button></Link>
-                                        <button onClick={()=>deleteAtividade(atividade.id)}>Excluir</button></td>
+                                        <Link to={`/atividades/${atividade.id}/edit `}>
+                                            <button style={{backgroundColor:'#3B9CFF', color:'#fff'}}>
+                                                <span className="material-icons">edit</span>
+                                            </button>
+                                        </Link>
+                                        <button onClick={()=>deleteAtividade(atividade.id)} style={{backgroundColor:'#FE5F55', color:'#fff'}}>
+                                            <span className="material-icons">delete</span>
+                                        </button>
+                                    </td>
                                     </tr>
                                 )
                     })}
