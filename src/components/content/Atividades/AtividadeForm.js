@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import Select from 'react-select'
 import {useNavigate,useParams} from 'react-router-dom'
+import styles from '../../../styles/layout/forms.module.css';
+import { AppLoading } from "../../Layout/loadings/AppLoading";
 
 export function AtividadeForm(){
     const [prefeituras,setPrefeituras] = useState('');
@@ -11,6 +13,7 @@ export function AtividadeForm(){
     const [status,setStatus] = useState(null);
     const [cityHallId, setCityHallId] = useState(null);
     const [token, setToken] =useState(localStorage.getItem('jwt_token'));
+    const [loading, setLoading] = useState(false);
 
     const types = [
         {value:1, label:'Ligação'},
@@ -29,39 +32,46 @@ export function AtividadeForm(){
     useEffect(()=>{
         getPrefeituras();
         if(id){
+            setLoading(true);
             getAtividade(id);
+        }else{
+            setLoading(false);
         }
+
     },[])
     return (
-        <div>
-            <Link to="/atividades">Voltar</Link>
+        <div className={styles.form}>
+            {loading ? <AppLoading/> : ''}
+            <header>
+                <button><Link to="/atividades"><span className="material-icons">reply</span></Link></button>
+            </header>
             <form>
-                <div className="form-group">
+                <div className={styles.form_group}>
                     <label>Descrição</label>
                     <input type="text" value={description} onChange={(event)=>setDescription(event.target.value)}/>
                 </div>
 
-                <div className="form-group">
+                <div className={styles.form_group}>
                     <label>Tipo</label>
                     <Select options={types}  value={type} onChange={handleType}/>
                 </div>
-                <div className="form-group">
+                <div className={styles.form_group}>
                     <label>Prefeitura</label>
                     <Select  options={prefeituras} value={cityHallId} onChange={handleCityHallId}/>
                 </div>
-                <div className="form-group">
+                <div className={styles.form_group}>
                     <label>Status</label>
                     <Select options={statuses} value={status} onChange={handleStatus}/>
                 </div>
                
-                <div className="form-group">
+                <div className={styles.form_group}>
                     <label>Data</label>
                     <input type="datetime-local" value={date} onChange={(event)=>setDate(event.target.value)}></input>
                 </div>
 
-                <div className="form-group">
-                    <button type="button" onClick={()=>sendForm()} >Concluir</button>
-                </div>
+                
+                <button type="button" onClick={()=>sendForm()} >Concluir</button>
+                
 
             </form>
 
@@ -69,6 +79,7 @@ export function AtividadeForm(){
     )
 
     async function getPrefeituras(){
+        setLoading(true);
         const cityHalls = []
         const data = await fetch(`http://127.0.0.1:8000/api/city-halls?token=${token}`);
         const response = await data.json();
@@ -120,6 +131,7 @@ export function AtividadeForm(){
     }
 
     async function getAtividade(id){
+        setLoading(true);
         const response =  await fetch(`http://127.0.0.1:8000/api/activities/${id}?token=${token}`);
         const data = await response.json();
         console.log(data);
@@ -129,6 +141,7 @@ export function AtividadeForm(){
         setType({value:data.data.type.original, label:data.data.type.formated});
         setDescription(data.data.description);
         setDate(data.data.scheduled_date);
+        setLoading(false);
     }
    
 }

@@ -38,7 +38,15 @@ export function Atividades(){
         
         <div>
             {loading ? <AppLoading/> : ''}
-            <Link to="/atividades/create">Nova Atividade</Link>
+            <div className={styles.items_header}>
+                <h2>Atividades</h2>
+                
+                <Link to="/atividades/create">
+                    <button>
+                        <span className="material-icons">add</span>
+                    </button> 
+                </Link>
+            </div>
            <table className={styles.table}>
                <thead>
                    <tr>

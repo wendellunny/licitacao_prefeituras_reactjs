@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import styles from '../../../styles/layout/table.module.css'
 import { AppLoading } from "../../Layout/loadings/AppLoading";
+
 export function Prefeituras(){
     const [prefeituras,setPrefeituras] = useState([]);
     const [token, setToken] = useState(localStorage.getItem('jwt_token'));

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import Select from 'react-select'
 import {useNavigate,useParams} from 'react-router-dom'
+import styles from '../../../styles/layout/forms.module.css';
+import { AppLoading } from "../../Layout/loadings/AppLoading";
 
 
 export function PrefeituraForm(props){
@@ -11,13 +13,17 @@ export function PrefeituraForm(props){
     const [cidades,setCidades] = useState([]);
     const [socialReason,setSocialReason] = useState('');
     const [token, setToken] =useState(localStorage.getItem('jwt_token'));
+    const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate(); 
     const {id} = useParams();
     useEffect(()  => {
         getAllUF();
         if(id){
+            setLoading(true);
             getPrefeitura(id);
+        }else{
+            setLoading(false); 
         }
         
         console.log(id);
@@ -31,26 +37,33 @@ export function PrefeituraForm(props){
 
 
         
-        <div>
-            <Link to="/prefeituras">Voltar</Link>
-            <form>
-                <div className="form-group">
+        <div className={styles.form}>
+            {loading ? <AppLoading/> : ''}
+            <header>
+                <button><Link to="/prefeituras"><span className="material-icons">reply</span></Link></button>
+            </header>
+            
+            <form >
+                <h3> {id ? 'Editar' : 'Cadastrar' } Prefeitura </h3>
+                <div className={styles.form_group}>
                     <labe>Razão Social</labe>
                     <input type="text" value={socialReason} onChange={(event)=>{setSocialReason(event.target.value)}}/>
                 </div>
-
-                <div className="form-group">
+                <div className={styles.form_row}>
+                    
+                </div>
+                <div className={styles.form_group}>
                     <label>Estado</label>
                     <Select options={estados} value={ufSelected} onChange={handleSelectedEstado}/>
                 </div>
-                <div className="form-group">
+                <div className={styles.form_group}>
                     <label>Cidade</label>
                     <Select options={cidades} placeholder={cidades[0]?.label} value={citySelected} onChange={handleSelectedCity}/>
                 </div>
 
-                <div className="form-group">
-                    <button type="button" onClick={sendForm}>Concluir</button>
-                </div>
+                
+                <button type="button" onClick={sendForm}>Concluir</button>
+               
 
             </form>
 
@@ -62,6 +75,7 @@ export function PrefeituraForm(props){
 
 
     async function getAllUF(){
+        setLoading(true);
         const options = [];
         const response = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados?token=${token}`);
         const data = await response.json();
@@ -73,6 +87,7 @@ export function PrefeituraForm(props){
     }
     
     async function getUfCities(uf){
+        setLoading(true);
         const options = [];
         const response = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${uf}/municipios?token=${token}`);
         const data = await response.json();
@@ -81,7 +96,7 @@ export function PrefeituraForm(props){
             options.push({value:city.id, label: city.nome})    
         });
         setCidades(options);
-    
+        setLoading(false);
     }
 
   function handleSelectedEstado(selected){
@@ -126,6 +141,7 @@ export function PrefeituraForm(props){
         setSocialReason(data.data.social_reason);
         setUfSelected(data.data.labels.inputUf)
         setCitySelected(data.data.labels.inputCity);
+        setLoading(false);
     }
 
 }
