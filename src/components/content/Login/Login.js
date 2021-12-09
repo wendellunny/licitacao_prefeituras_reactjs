@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { Navigate } from "react-router-dom";
 import { Context } from "../../../context/AuthContext";
 import styles from "../../../styles/login/login.module.css";
 import background from "../../../assets/images/backgrounds/licitacao.jpg";
@@ -14,10 +15,15 @@ export default function Login(){
 
     useEffect(async function(){
         const authenticated = await isAuthenticated();
-        if(authenticated){
-            navigate('/')
+        console.log(authenticated);
+        if(!authenticated){
+            setLoading(false);
+            return <Navigate to="/login"/>
+        }else{
+            setLoading(false);
+            return <Navigate to="/"/>
         }
-        setLoading(false);
+        
     },[]);
 
     if(loading){

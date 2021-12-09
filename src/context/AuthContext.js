@@ -39,7 +39,12 @@ function AuthProvider({children}){
         )
         const {access_token} = await response.json();
         localStorage.setItem('jwt_token',access_token);
-        navigate('/');
+        const auth = await isAuthenticated();
+        if (auth){
+            navigate('/');
+        }else{
+            navigate('/login')
+        }
     }
 
 
